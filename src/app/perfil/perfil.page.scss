@@ -1,0 +1,36 @@
+.loading-area { padding: 24px 0; }
+
+.avatar-area {
+  display: flex;
+  justify-content: center;
+  padding: 24px 0 16px;
+
+  .avatar-circle {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: var(--ion-color-primary-tint);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    ion-icon {
+      font-size: 48px;
+      color: var(--ion-color-primary);
+    }
+  }
+}
+
+.error-msg { font-size: 12px; margin: 2px 4px 8px; }
+
+.btn-area {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.logout-area {
+  margin-top: 32px;
+  padding-bottom: 16px;
+}

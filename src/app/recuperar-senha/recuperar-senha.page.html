@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login" aria-label="Voltar para login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Recuperar Senha</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="auth-container">
+
+    <div class="info-area">
+      <ion-icon name="lock-open-outline" class="info-icon" aria-hidden="true"></ion-icon>
+      <p>Digite seu email e enviaremos um link para redefinir sua senha.</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="enviar()">
+
+      <ion-input
+        label="Email"
+        label-placement="stacked"
+        type="email"
+        formControlName="email"
+        placeholder="seu@email.com"
+        aria-label="Email para recuperação de senha"
+        autocomplete="email"
+        fill="outline"
+        class="ion-margin-bottom">
+      </ion-input>
+      <ion-text color="danger" role="alert" aria-live="polite" *ngIf="email?.invalid && email?.touched">
+        <p class="error-msg">Digite um email válido</p>
+      </ion-text>
+
+      <ion-button
+        expand="block"
+        type="submit"
+        class="ion-margin-top"
+        [disabled]="isLoading"
+        aria-label="Enviar email de recuperação de senha">
+        <ion-spinner name="crescent" *ngIf="isLoading" aria-hidden="true"></ion-spinner>
+        <span *ngIf="!isLoading">Enviar Email</span>
+      </ion-button>
+
+    </form>
+
+    <div class="links-area">
+      <ion-button fill="clear" routerLink="/login" aria-label="Voltar para a tela de login">
+        Voltar para Login
+      </ion-button>
+    </div>
+
+  </div>
+</ion-content>

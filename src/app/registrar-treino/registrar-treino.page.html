@@ -1,0 +1,111 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" aria-label="Voltar para home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Registrar Treino</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="form" (ngSubmit)="salvar()">
+
+    <!-- Esporte -->
+    <ion-select
+      label="Esporte"
+      label-placement="stacked"
+      formControlName="esporte"
+      placeholder="Selecione o esporte"
+      aria-label="Tipo de esporte"
+      fill="outline"
+      class="ion-margin-bottom">
+      <ion-select-option *ngFor="let e of esportes" [value]="e">{{ e }}</ion-select-option>
+    </ion-select>
+    <ion-text color="danger" role="alert" aria-live="polite" *ngIf="esporte?.invalid && esporte?.touched">
+      <p class="error-msg">Selecione um esporte</p>
+    </ion-text>
+
+    <!-- Duração -->
+    <ion-input
+      label="Duração (minutos)"
+      label-placement="stacked"
+      type="number"
+      formControlName="duracaoMin"
+      placeholder="Ex: 60"
+      aria-label="Duração do treino em minutos"
+      fill="outline"
+      min="1"
+      max="1440"
+      class="ion-margin-bottom">
+    </ion-input>
+    <ion-text color="danger" role="alert" aria-live="polite" *ngIf="duracaoMin?.invalid && duracaoMin?.touched">
+      <p class="error-msg">Duração inválida (1–1440 minutos)</p>
+    </ion-text>
+
+    <!-- Data -->
+    <ion-input
+      label="Data do treino"
+      label-placement="stacked"
+      type="date"
+      formControlName="data"
+      aria-label="Data do treino"
+      fill="outline"
+      class="ion-margin-bottom">
+    </ion-input>
+
+    <!-- Esforço -->
+    <div class="esforco-area">
+      <p class="esforco-label" id="esforco-label">Nível de esforço: {{ form.get('esforco')?.value }}/5</p>
+      <ion-range
+        min="1"
+        max="5"
+        step="1"
+        [value]="form.get('esforco')?.value"
+        (ionChange)="onEsforcoChange($event)"
+        aria-labelledby="esforco-label"
+        color="primary">
+        <ion-label slot="start" aria-hidden="true">1</ion-label>
+        <ion-label slot="end" aria-hidden="true">5</ion-label>
+      </ion-range>
+    </div>
+
+    <!-- Notas -->
+    <ion-textarea
+      label="Notas (opcional)"
+      label-placement="stacked"
+      formControlName="notas"
+      placeholder="Como foi o treino?"
+      aria-label="Notas sobre o treino"
+      fill="outline"
+      [maxlength]="500"
+      (ionInput)="onNotasChange($event)"
+      rows="3"
+      class="ion-margin-bottom">
+    </ion-textarea>
+    <ion-text color="medium" *ngIf="notasLen > 0">
+      <p class="counter-msg">{{ notasLen }}/500</p>
+    </ion-text>
+
+    <!-- Botões -->
+    <div class="btn-area">
+      <ion-button
+        expand="block"
+        type="submit"
+        [disabled]="isLoading"
+        aria-label="Salvar treino">
+        <ion-spinner name="crescent" *ngIf="isLoading" aria-hidden="true"></ion-spinner>
+        <span *ngIf="!isLoading">Salvar Treino</span>
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        fill="outline"
+        type="button"
+        (click)="cancelar()"
+        aria-label="Cancelar e voltar">
+        Cancelar
+      </ion-button>
+    </div>
+
+  </form>
+</ion-content>

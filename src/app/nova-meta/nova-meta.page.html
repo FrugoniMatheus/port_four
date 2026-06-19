@@ -1,0 +1,117 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" aria-label="Voltar para home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Nova Meta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="form" (ngSubmit)="criar()">
+
+    <!-- Título -->
+    <ion-input
+      label="Título da meta"
+      label-placement="stacked"
+      type="text"
+      formControlName="titulo"
+      placeholder="Ex: Correr 5km sem parar"
+      aria-label="Título da meta esportiva"
+      fill="outline"
+      [maxlength]="100"
+      (ionInput)="onTituloChange($event)"
+      class="ion-margin-bottom">
+    </ion-input>
+    <ion-text color="danger" role="alert" aria-live="polite" *ngIf="titulo?.invalid && titulo?.touched">
+      <p class="error-msg">Título é obrigatório</p>
+    </ion-text>
+    <ion-text color="medium" *ngIf="tituloLen > 0">
+      <p class="counter-msg">{{ tituloLen }}/100</p>
+    </ion-text>
+
+    <!-- Tipo -->
+    <ion-select
+      label="Tipo de meta"
+      label-placement="stacked"
+      formControlName="tipo"
+      placeholder="Selecione o tipo"
+      aria-label="Tipo de meta esportiva"
+      fill="outline"
+      class="ion-margin-bottom">
+      <ion-select-option *ngFor="let t of tiposMeta" [value]="t">{{ t }}</ion-select-option>
+    </ion-select>
+    <ion-text color="danger" role="alert" aria-live="polite" *ngIf="tipo?.invalid && tipo?.touched">
+      <p class="error-msg">Selecione o tipo de meta</p>
+    </ion-text>
+
+    <!-- Valor alvo -->
+    <ion-input
+      label="Valor alvo"
+      label-placement="stacked"
+      type="number"
+      formControlName="valorAlvo"
+      placeholder="Ex: 5"
+      aria-label="Valor alvo da meta"
+      fill="outline"
+      min="0.01"
+      step="0.01"
+      class="ion-margin-bottom">
+    </ion-input>
+    <ion-text color="danger" role="alert" aria-live="polite" *ngIf="valorAlvo?.invalid && valorAlvo?.touched">
+      <p class="error-msg">Valor deve ser maior que zero</p>
+    </ion-text>
+
+    <!-- Prazo -->
+    <ion-input
+      label="Prazo"
+      label-placement="stacked"
+      type="date"
+      formControlName="prazo"
+      [min]="prazoMin"
+      aria-label="Prazo da meta"
+      fill="outline"
+      class="ion-margin-bottom">
+    </ion-input>
+    <ion-text color="danger" role="alert" aria-live="polite" *ngIf="prazo?.invalid && prazo?.touched">
+      <p class="error-msg">Prazo é obrigatório</p>
+    </ion-text>
+    <ion-text color="danger" role="alert" aria-live="polite" *ngIf="prazo?.value && !prazoFuturo()">
+      <p class="error-msg">Prazo deve ser uma data futura</p>
+    </ion-text>
+
+    <!-- Descrição -->
+    <ion-textarea
+      label="Descrição (opcional)"
+      label-placement="stacked"
+      formControlName="descricao"
+      placeholder="Descreva sua meta..."
+      aria-label="Descrição da meta"
+      fill="outline"
+      rows="3"
+      class="ion-margin-bottom">
+    </ion-textarea>
+
+    <!-- Botões -->
+    <div class="btn-area">
+      <ion-button
+        expand="block"
+        type="submit"
+        [disabled]="isLoading"
+        aria-label="Criar meta esportiva">
+        <ion-spinner name="crescent" *ngIf="isLoading" aria-hidden="true"></ion-spinner>
+        <span *ngIf="!isLoading">Criar Meta</span>
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        fill="outline"
+        type="button"
+        (click)="cancelar()"
+        aria-label="Cancelar e voltar">
+        Cancelar
+      </ion-button>
+    </div>
+
+  </form>
+</ion-content>

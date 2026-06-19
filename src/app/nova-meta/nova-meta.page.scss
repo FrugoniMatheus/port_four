@@ -1,0 +1,10 @@
+.error-msg { font-size: 12px; margin: 2px 4px 8px; }
+.counter-msg { font-size: 12px; margin: 2px 4px 8px; text-align: right; }
+
+.btn-area {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+  padding-bottom: 16px;
+}

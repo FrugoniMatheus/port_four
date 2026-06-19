@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login" aria-label="Voltar para login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Criar Conta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="auth-container">
+
+    <form [formGroup]="form" (ngSubmit)="cadastrar()">
+
+      <ion-input
+        label="Nome completo"
+        label-placement="stacked"
+        type="text"
+        formControlName="nome"
+        placeholder="Seu nome"
+        aria-label="Nome completo"
+        fill="outline"
+        class="ion-margin-bottom">
+      </ion-input>
+      <ion-text color="danger" role="alert" aria-live="polite" *ngIf="nome?.invalid && nome?.touched">
+        <p class="error-msg">Nome é obrigatório</p>
+      </ion-text>
+
+      <ion-input
+        label="Email"
+        label-placement="stacked"
+        type="email"
+        formControlName="email"
+        placeholder="seu@email.com"
+        aria-label="Email"
+        autocomplete="email"
+        fill="outline"
+        class="ion-margin-bottom">
+      </ion-input>
+      <ion-text color="danger" role="alert" aria-live="polite" *ngIf="email?.invalid && email?.touched">
+        <p class="error-msg">Digite um email válido</p>
+      </ion-text>
+
+      <ion-input
+        label="Senha"
+        label-placement="stacked"
+        type="password"
+        formControlName="senha"
+        placeholder="Mínimo 6 caracteres"
+        aria-label="Senha"
+        autocomplete="new-password"
+        fill="outline"
+        class="ion-margin-bottom">
+      </ion-input>
+      <ion-text color="danger" role="alert" aria-live="polite" *ngIf="senha?.invalid && senha?.touched">
+        <p class="error-msg">Senha deve ter pelo menos 6 caracteres</p>
+      </ion-text>
+
+      <ion-text color="danger" role="alert" aria-live="polite" *ngIf="erroCadastro">
+        <p class="error-msg">{{ erroCadastro }}</p>
+      </ion-text>
+
+      <ion-button
+        expand="block"
+        type="submit"
+        class="ion-margin-top"
+        [disabled]="isLoading"
+        aria-label="Criar conta">
+        <ion-spinner name="crescent" *ngIf="isLoading" aria-hidden="true"></ion-spinner>
+        <span *ngIf="!isLoading">Criar Conta</span>
+      </ion-button>
+
+    </form>
+
+    <div class="links-area">
+      <ion-button fill="clear" routerLink="/login" aria-label="Voltar para a tela de login">
+        Já tenho conta
+      </ion-button>
+    </div>
+
+  </div>
+</ion-content>
