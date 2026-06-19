@@ -1,0 +1,7 @@
+{
+  "name": "sport-track",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
