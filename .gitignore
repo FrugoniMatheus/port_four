@@ -13,6 +13,4 @@ sport-track/.ionic/
 sport-track/android/
 sport-track/ios/
 
-# Variáveis de ambiente sensíveis
-sport-track/src/environments/environment.prod.ts
 
