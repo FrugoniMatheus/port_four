@@ -14,7 +14,7 @@
   <div *ngIf="isLoading" class="loading-area">
     <ion-skeleton-text animated style="width: 60%; height: 24px; margin: 8px auto;"></ion-skeleton-text>
     <ion-skeleton-text animated style="width: 100%; height: 80px; margin: 8px 0;"></ion-skeleton-text>
-    <ion-skeleton-text animated style="width: 100%; height: 80px; margin: 8px 0;"></ion-skeleton-text>
+    <ion-skeleton-text animated style="width: 100%; height: 120px; margin: 8px 0;"></ion-skeleton-text>
   </div>
 
   <div *ngIf="!isLoading">
@@ -40,32 +40,58 @@
       </ion-card-content>
     </ion-card>
 
-    <!-- Card: Meta Ativa -->
-    <ion-card class="meta-card">
-      <ion-card-header>
-        <ion-card-subtitle>Meta ativa</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content *ngIf="metaAtiva; else semMeta">
-        <p class="meta-titulo" [attr.aria-label]="'Meta: ' + metaAtiva.titulo">
-          {{ metaAtiva.titulo }}
-        </p>
-        <ion-chip color="primary" aria-hidden="true">
-          <ion-label>{{ metaAtiva.tipo }}</ion-label>
-        </ion-chip>
-        <p class="meta-prazo">
-          <ion-icon name="calendar-outline" aria-hidden="true"></ion-icon>
-          Prazo: {{ metaAtiva.prazo }}
-        </p>
-      </ion-card-content>
-      <ng-template #semMeta>
-        <ion-card-content>
-          <p>Nenhuma meta definida ainda.</p>
-          <ion-button fill="outline" size="small" routerLink="/nova-meta" aria-label="Criar nova meta esportiva">
-            Criar meta
-          </ion-button>
-        </ion-card-content>
-      </ng-template>
-    </ion-card>
+    <!-- Seção de Metas -->
+    <div class="metas-section">
+      <div class="metas-header">
+        <h3>Minhas Metas</h3>
+      </div>
+
+      <!-- Carousel de Metas -->
+      <swiper-container
+        #metasSwiper
+        *ngIf="metasFiltradas.length > 0"
+        class="metas-carousel"
+        pagination="true"
+        slides-per-view="1"
+        space-between="16"
+        aria-label="Carousel de metas"
+        role="region">
+
+        <swiper-slide
+          *ngFor="let meta of metasFiltradas; let i = index"
+          [attr.aria-roledescription]="'slide'"
+          [attr.aria-label]="'Meta ' + (i + 1) + ' de ' + metasFiltradas.length + ': ' + meta.titulo">
+          <ion-card class="meta-card">
+            <ion-card-header>
+              <ion-card-subtitle>Meta ativa</ion-card-subtitle>
+              <ion-card-title>{{ meta.titulo }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-chip color="primary" aria-hidden="true">
+                <ion-label>{{ meta.tipo }}</ion-label>
+              </ion-chip>
+              <p class="meta-prazo">
+                <ion-icon name="calendar-outline" aria-hidden="true"></ion-icon>
+                Prazo: {{ meta.prazo }}
+              </p>
+              <p class="meta-descricao" *ngIf="meta.descricao">{{ meta.descricao }}</p>
+            </ion-card-content>
+          </ion-card>
+        </swiper-slide>
+
+      </swiper-container>
+
+      <!-- Estado vazio -->
+      <div *ngIf="metasFiltradas.length === 0" class="metas-empty">
+        <ion-icon name="flag-outline" aria-hidden="true"></ion-icon>
+        <p *ngIf="metas.length === 0">Nenhuma meta criada ainda.</p>
+        <p *ngIf="metas.length > 0">Nenhuma meta com prazo neste período.</p>
+        <ion-button fill="outline" size="small" routerLink="/nova-meta" aria-label="Criar nova meta">
+          Criar meta
+        </ion-button>
+      </div>
+
+    </div>
 
     <!-- Ações rápidas -->
     <div class="actions-area">

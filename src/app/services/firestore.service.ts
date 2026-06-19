@@ -61,4 +61,10 @@ export class FirestoreService {
       map(metas => metas.length > 0 ? (metas[0] as unknown as Meta) : null)
     );
   }
+
+  getMetasAtivas(uid: string): Observable<Meta[]> {
+    const ref = collection(this.firestore, `metas/${uid}/lista`);
+    const q = query(ref, where('status', '==', 'ativa'));
+    return collectionData(q, { idField: 'id' }) as Observable<Meta[]>;
+  }
 }

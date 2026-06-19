@@ -1,8 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { register } from 'swiper/element/bundle';
 import { AuthService } from '../services/auth.service';
 import { FirestoreService } from '../services/firestore.service';
 import { UserProfile, Meta } from '../models/models';
+
+register();
 
 @Component({
   selector: 'app-home',
@@ -12,9 +15,12 @@ import { UserProfile, Meta } from '../models/models';
 })
 export class HomePage implements OnInit, OnDestroy {
 
+  @ViewChild('metasSwiper') swiperRef!: ElementRef;
+
   perfil: UserProfile | undefined;
   totalTreinos = 0;
-  metaAtiva: Meta | null = null;
+  metas: Meta[] = [];
+  metasFiltradas: Meta[] = [];
   isLoading = true;
 
   private subs: Subscription[] = [];
@@ -42,11 +48,39 @@ export class HomePage implements OnInit, OnDestroy {
     );
 
     this.subs.push(
-      this.firestoreService.getMetaAtiva(uid).subscribe({
-        next: meta => { this.metaAtiva = meta; },
-        error: err => { console.error('[Home] Erro ao buscar meta ativa:', err); }
+      this.firestoreService.getMetasAtivas(uid).subscribe({
+        next: metas => {
+          this.metas = metas;
+          this.aplicarFiltro();
+        },
+        error: err => console.error('[Home] Erro ao buscar metas:', err)
       })
     );
+  }
+
+  private aplicarFiltro() {
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+
+    const filtradas = [...this.metas];
+
+    // Metas futuras primeiro (mais próximas de hoje), depois as vencidas
+    filtradas.sort((a, b) => {
+      const prazoA = new Date(a.prazo);
+      const prazoB = new Date(b.prazo);
+      const aPassada = prazoA < hoje;
+      const bPassada = prazoB < hoje;
+      if (aPassada && !bPassada) return 1;
+      if (!aPassada && bPassada) return -1;
+      return prazoA.getTime() - prazoB.getTime();
+    });
+
+    this.metasFiltradas = filtradas;
+
+    setTimeout(() => {
+      this.swiperRef?.nativeElement?.swiper?.slideTo(0, 0);
+      this.swiperRef?.nativeElement?.swiper?.update();
+    }, 50);
   }
 
   ngOnDestroy() {

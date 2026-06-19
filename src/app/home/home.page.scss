@@ -7,7 +7,7 @@
 }
 
 .stat-card {
-  margin: 0 0 12px;
+  margin: 0 0 16px;
   .stat-row {
     display: flex;
     align-items: center;
@@ -18,9 +18,29 @@
   }
 }
 
+.metas-section {
+  margin-bottom: 16px;
+}
+
+.metas-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px 4px;
+  h3 { font-size: 17px; font-weight: 700; margin: 0; }
+}
+
+
+.metas-carousel {
+  --swiper-pagination-color: var(--ion-color-primary);
+  --swiper-navigation-color: var(--ion-color-primary);
+  --swiper-navigation-size: 22px;
+  padding-bottom: 36px;
+}
+
 .meta-card {
-  margin: 0 0 16px;
-  .meta-titulo { font-size: 16px; font-weight: 600; margin: 0 0 8px; }
+  margin: 0;
+  ion-card-title { font-size: 16px; }
   .meta-prazo {
     display: flex;
     align-items: center;
@@ -29,6 +49,21 @@
     color: var(--ion-color-medium);
     margin: 8px 0 0;
   }
+  .meta-descricao {
+    font-size: 13px;
+    color: var(--ion-color-medium);
+    margin: 6px 0 0;
+  }
+}
+
+.metas-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px;
+  gap: 8px;
+  ion-icon { font-size: 40px; color: var(--ion-color-medium); }
+  p { color: var(--ion-color-medium); margin: 0; font-size: 14px; text-align: center; }
 }
 
 .actions-area {
