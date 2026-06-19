@@ -1,0 +1,18 @@
+# Ferramentas de desenvolvimento local (não sobem para o GitHub)
+.agents
+.claude
+.cursor
+.specs
+
+# Dependências e build do Ionic (dentro de sport-track/)
+sport-track/node_modules/
+sport-track/.angular/
+sport-track/www/
+sport-track/dist/
+sport-track/.ionic/
+sport-track/android/
+sport-track/ios/
+
+# Variáveis de ambiente sensíveis
+sport-track/src/environments/environment.prod.ts
+
